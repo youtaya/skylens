@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class MouseClick : MonoBehaviour {
+public class MouseClick : MonoBehaviour , IPointerClickHandler {
 
 	private bool flag = false;
 	private Vector3 origin;
@@ -15,9 +16,15 @@ public class MouseClick : MonoBehaviour {
 		origin = gameObject.transform.position;
 		//Debug.Log ("origin: " + origin);
 	}
+
+	public void OnPointerClick(PointerEventData data)
+	{
+		Debug.Log ("I am click");
+	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if ((Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) 
 			|| (Input.GetMouseButtonDown (0))) {
 
@@ -36,7 +43,7 @@ public class MouseClick : MonoBehaviour {
 					endPoint = origin;
 					endPoint.z += 2;
 					endPoint.y += 1;
-					Debug.Log (endPoint);
+					//Debug.Log (endPoint);
 				}
 			}
 		}
@@ -46,7 +53,8 @@ public class MouseClick : MonoBehaviour {
 			if (Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) {
 				endPoint = origin;
 			}
-		} 
+		}
+
 		/*
 		if (flag && !Mathf.Approximately (gameObject.transform.position.magnitude, endPoint.magnitude)) {
 			gameObject.transform.position = Vector3.Lerp (gameObject.transform.position, endPoint, 
