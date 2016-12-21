@@ -115,6 +115,8 @@ public class NumberGather : MonoBehaviour {
 					}
 					// for test
 					//string res = Marshal.PtrToStringAnsi(magicAllIn(200,234,345));
+					//[TODO] interface test!!
+					/*
 					IntPtr pStr = magicAllIn (200, 234, 345);
 					Debug.Log ("get ptr:" + pStr.ToString ());
 					string res = Marshal.PtrToStringAnsi (pStr);
@@ -122,6 +124,7 @@ public class NumberGather : MonoBehaviour {
 
 					Debug.Log ("you hit confirm!! ==> get result:  " + res);
 					notificationText.text = res;
+					*/
 					// load next scene
 					//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex+1);
 					Camera.main.transform.Rotate (new Vector3 (0, 90, 0)); 
