@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 public class NumberGather : MonoBehaviour {
 	public GameObject One;
@@ -26,8 +27,14 @@ public class NumberGather : MonoBehaviour {
 	static int[] groupNums = new int[9];
 	static int groupIndex = 0;
 
-	[DllImport ("flick", CharSet=CharSet.Ansi, CallingConvention=CallingConvention.StdCall)]
+	#if (UNITY_EDITOR || UNITY_STANDALONE_WIN)
+	[DllImport ("flick")]
+	private static extern void magicAllIn(byte[] sb, int v1, int v2, int v3);
+	#elif (UNITY_ANDROID || UNITY_IPHONE )
+	[DllImport ("flick")]
 	private static extern IntPtr magicAllIn(int v1, int v2, int v3);
+	#endif
+
 
 
 	// Use this for initialization
@@ -115,16 +122,22 @@ public class NumberGather : MonoBehaviour {
 					}
 					// for test
 					//string res = Marshal.PtrToStringAnsi(magicAllIn(200,234,345));
-					//[TODO] interface test!!
-					/*
+
+					#if (UNITY_EDITOR || UNITY_STANDALONE_WIN)
+					byte[] sb = new byte[256];
+					magicAllIn (sb, 200, 234, 345);
+					string screenStr="";
+					screenStr=System.Text.Encoding.Default.GetString(sb);
+					Debug.Log ("sb result:  " + screenStr);
+					notificationText.text = screenStr;
+					#elif (UNITY_ANDROID || UNITY_IPHONE )
 					IntPtr pStr = magicAllIn (200, 234, 345);
-					Debug.Log ("get ptr:" + pStr.ToString ());
 					string res = Marshal.PtrToStringAnsi (pStr);
 					Marshal.FreeHGlobal (pStr);
-
-					Debug.Log ("you hit confirm!! ==> get result:  " + res);
 					notificationText.text = res;
-					*/
+					#endif
+
+
 					// load next scene
 					//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex+1);
 					Camera.main.transform.Rotate (new Vector3 (0, 90, 0)); 

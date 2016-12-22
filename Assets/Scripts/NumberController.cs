@@ -7,7 +7,9 @@ public class NumberController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		#if UNITY_EDITOR
 		Debug.Log ("number controller");
+		#endif
 	}
 	
 	// Update is called once per frame
@@ -17,6 +19,8 @@ public class NumberController : MonoBehaviour {
 
 	public void ClickNumberEvent(BaseEventData data) {
 		PointerEventData temp = (PointerEventData)data;
+		#if UNITY_EDITOR
 		Debug.Log ("I am trigger: "+temp.pointerCurrentRaycast);
+		#endif
 	}
 }
