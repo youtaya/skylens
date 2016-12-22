@@ -27,10 +27,11 @@ public class NumberGather : MonoBehaviour {
 	static int[] groupNums = new int[9];
 	static int groupIndex = 0;
 
+
 	#if (UNITY_EDITOR || UNITY_STANDALONE_WIN)
 	[DllImport ("flick")]
 	private static extern void magicAllIn(byte[] sb, int v1, int v2, int v3);
-	#elif (UNITY_ANDROID || UNITY_IPHONE )
+	#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
 	[DllImport ("flick")]
 	private static extern IntPtr magicAllIn(int v1, int v2, int v3);
 	#endif
@@ -130,10 +131,10 @@ public class NumberGather : MonoBehaviour {
 					screenStr=System.Text.Encoding.Default.GetString(sb);
 					Debug.Log ("sb result:  " + screenStr);
 					notificationText.text = screenStr;
-					#elif (UNITY_ANDROID || UNITY_IPHONE )
+					#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
 					IntPtr pStr = magicAllIn (200, 234, 345);
 					string res = Marshal.PtrToStringAnsi (pStr);
-					Marshal.FreeHGlobal (pStr);
+					//Marshal.FreeHGlobal (pStr);
 					notificationText.text = res;
 					#endif
 
