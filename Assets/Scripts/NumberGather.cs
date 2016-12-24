@@ -28,10 +28,10 @@ public class NumberGather : MonoBehaviour {
 	static int groupIndex = 0;
 
 
-	#if (UNITY_EDITOR || UNITY_STANDALONE_WIN)
+	#if (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 	[DllImport ("flick")]
 	private static extern void magicAllIn(byte[] sb, int v1, int v2, int v3);
-	#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
+	#elif (UNITY_EDITOR_OSX || UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
 	[DllImport ("flick")]
 	private static extern IntPtr magicAllIn(int v1, int v2, int v3);
 	#endif
@@ -124,14 +124,14 @@ public class NumberGather : MonoBehaviour {
 					// for test
 					//string res = Marshal.PtrToStringAnsi(magicAllIn(200,234,345));
 
-					#if (UNITY_EDITOR || UNITY_STANDALONE_WIN)
+					#if (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 					byte[] sb = new byte[256];
 					magicAllIn (sb, 200, 234, 345);
 					string screenStr="";
 					screenStr=System.Text.Encoding.Default.GetString(sb);
 					Debug.Log ("sb result:  " + screenStr);
 					notificationText.text = screenStr;
-					#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
+					#elif (UNITY_EDITOR_OSX || UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
 					IntPtr pStr = magicAllIn (200, 234, 345);
 					string res = Marshal.PtrToStringAnsi (pStr);
 					//Marshal.FreeHGlobal (pStr);

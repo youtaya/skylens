@@ -12,7 +12,7 @@ public class NumberController : MonoBehaviour {
 	public Text roundText;
 	public Text notificationText;
 
-	static int[] groupNums = new int[9];
+	static TouchNumber[] groupNums = new TouchNumber[9];
 	static int groupIndex = 0;
 	static bool isCameraRotate = false;
 
@@ -44,46 +44,150 @@ public class NumberController : MonoBehaviour {
 		roundText.text = "Round ";
 		string temp = "";
 		for (int i = 0; i < 9; i++) {
-			temp += " "+groupNums[i];
+			if (groupNums [i] != null) {
+				temp += " " + groupNums [i].number;
+			}
 		}
 		roundText.text += temp;
+	}
+
+	bool hasTouched(int n, int pad) {
+		for (int i = 0; i < 9; i++) {
+			if (groupNums [i] != null) {
+				if (groupNums [i].number == n && groupNums [i].belongPad == pad) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public void ClickNumberEvent(BaseEventData data) {
 		PointerEventData temp = (PointerEventData)data;
 		#if UNITY_EDITOR
-		Debug.Log ("I am trigger: "+temp.pointerCurrentRaycast);
+		Debug.Log ("hit object: "+temp.pointerCurrentRaycast);
+		Debug.Log ("parent of hit object: "+temp.pointerPressRaycast.gameObject.transform.parent.gameObject);
 		#endif
 		if (temp.pointerCurrentRaycast.gameObject.name == "One") {
-			groupNums [groupIndex] = 1;
-			groupIndex++;
+			int touchPad = 1;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				touchPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				touchPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				touchPad = 3;
+			}
+			if(hasTouched(1, touchPad)) {
+				Debug.Log ("has touched!");
+				
+			} else {
+				TouchNumber tn = new TouchNumber (1, touchPad, groupIndex);
+				groupNums [groupIndex] = tn;
+				groupIndex++;
+			}
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Two") {
-			groupNums [groupIndex] = 2;
+			groupNums [groupIndex].number = 2;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			}
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Three") {
-			groupNums [groupIndex] = 3;
+			groupNums [groupIndex].number = 3;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Four") {
-			groupNums [groupIndex] = 4;
+			groupNums [groupIndex].number = 4;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Five") {
-			groupNums [groupIndex] = 5;
+			groupNums [groupIndex].number = 5;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Six") {
-			groupNums [groupIndex] = 6;
+			groupNums [groupIndex].number = 6;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Seven") {
-			groupNums [groupIndex] = 7;
+			groupNums [groupIndex].number = 7;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Eight") {
-			groupNums [groupIndex] = 8;
+			groupNums [groupIndex].number = 8;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Nine") {
-			groupNums [groupIndex] = 9;
+			groupNums [groupIndex].number = 9;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
 		} else if (temp.pointerCurrentRaycast.gameObject.name == "Zero") {
-			groupNums [groupIndex] = 0;
+			groupNums [groupIndex].number = 0;
+			if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 1") {
+				groupNums [groupIndex].belongPad = 1;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 2") {
+				groupNums [groupIndex].belongPad = 2;
+			} else if (temp.pointerPressRaycast.gameObject.transform.parent.gameObject.name == "Touch Pad 3") {
+				groupNums [groupIndex].belongPad = 3;
+			} 
+			groupNums [groupIndex].index = groupIndex;
 			groupIndex++;
+		} else if (temp.pointerCurrentRaycast.gameObject.name == "Back") {
+			Camera.main.transform.Rotate (new Vector3 (0, -90, 0));
+		} else if (temp.pointerCurrentRaycast.gameObject.name == "Forward") {
+			Camera.main.transform.Rotate (new Vector3 (0, 90, 0));
 		}
 	}
 }
