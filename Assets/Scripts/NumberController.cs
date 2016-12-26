@@ -60,29 +60,38 @@ public class NumberController : MonoBehaviour {
 		if (groupIndex > 0 && (groupIndex % 3 == 0)) {
 			if (!isCameraRotate && !isRevertCond) {
 				Camera.main.transform.Rotate (new Vector3 (0, 90, 0));
+
+				if ((Camera.main.transform.rotation.y == 0) && (groupIndex == 9)) {
+
+					int group1 = 0;
+					int group2 = 0;
+					int group3 = 0;
+
+					group1 = combineNumber (listNum [0].number, listNum [1].number, listNum [2].number);
+					group2 = combineNumber (listNum [3].number, listNum [4].number, listNum [5].number);
+					group3 = combineNumber (listNum [6].number, listNum [7].number, listNum [8].number);
+
+					#if (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
+					byte[] sb = new byte[256];
+					magicAllIn (sb, group1, group2, group3);
+					string screenStr="";
+					screenStr=System.Text.Encoding.Default.GetString(sb);
+					Debug.Log ("sb result:  " + screenStr);
+					notificationText.text = screenStr;
+					#elif (UNITY_EDITOR_OSX || UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
+					IntPtr pStr = magicAllIn (group1, group2, group3);
+					string res = Marshal.PtrToStringAnsi (pStr);
+					//Marshal.FreeHGlobal (pStr);
+					notificationText.text = res;
+					#endif
+				}
 			}
+
 			isCameraRotate = true;
 		} else {
 			isCameraRotate = false;
 		}
 
-		if (groupIndex == 9) {
-			
-			#if (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
-			byte[] sb = new byte[256];
-			magicAllIn (sb, 200, 234, 345);
-			string screenStr="";
-			screenStr=System.Text.Encoding.Default.GetString(sb);
-			Debug.Log ("sb result:  " + screenStr);
-			notificationText.text = screenStr;
-			#elif (UNITY_EDITOR_OSX || UNITY_ANDROID || UNITY_IPHONE || UNITY_STANDALONE_OSX)
-			IntPtr pStr = magicAllIn (200, 234, 345);
-			string res = Marshal.PtrToStringAnsi (pStr);
-			//Marshal.FreeHGlobal (pStr);
-			notificationText.text = res;
-			#endif
-
-		}
 	}
 
 	void ShowRoundText () {
@@ -94,6 +103,21 @@ public class NumberController : MonoBehaviour {
 			}
 		}
 		roundText.text += temp;
+	}
+
+	int combineNumber(int v1, int v2, int v3) {
+		return v1 * 100 + v2 * 10 + v3;
+	}
+
+	public void RecapNumber() {
+		
+		int currentPad = groupIndex / 3;
+		Debug.Log ("recap number : "+currentPad+" list length : "+listNum.Count);
+		for (int i = (listNum.Count-1); i >= (3*currentPad); i--) {
+			listNum.Remove (listNum [i]);
+			groupIndex -= 1;
+		}
+		isRevertCond = true;
 	}
 
 	TouchNumber getTouchedNum(int n, int pad) {
@@ -108,7 +132,7 @@ public class NumberController : MonoBehaviour {
 	}
 
 	void recordNumber(int num, int pad) {
-
+		/*
 		TouchNumber touched = getTouchedNum (num, pad);
 		if(touched != null) {
 			Debug.Log ("has touched!");
@@ -122,6 +146,11 @@ public class NumberController : MonoBehaviour {
 			groupIndex++;
 			isRevertCond = false;
 		}
+		*/
+		isRevertCond = false;
+		TouchNumber tn = new TouchNumber (num, pad);
+		listNum.Add (tn);
+		groupIndex++;
 	}
 
 	public void ClickNumberEvent(BaseEventData data) {
