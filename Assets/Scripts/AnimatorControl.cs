@@ -8,7 +8,7 @@ public class AnimatorControl : MonoBehaviour, IPointerClickHandler {
 	// Use this for initialization
 	void Start () {
 		anima = GetComponent<Animator> ();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
