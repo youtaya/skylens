@@ -23,7 +23,9 @@ public class AnimatorControl : MonoBehaviour, IPointerClickHandler {
 		Debug.Log ("squiz trigger");
 		#endif
 		anima.SetTrigger ("squizTrigger");
-		source.Play ();
+		if (source != null) {
+			source.Play ();
+		}
 	}
 		
 }
