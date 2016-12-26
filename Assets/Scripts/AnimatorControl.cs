@@ -5,9 +5,11 @@ using UnityEngine.EventSystems;
 
 public class AnimatorControl : MonoBehaviour, IPointerClickHandler {
 	Animator anima;
+	AudioSource source;
 	// Use this for initialization
 	void Start () {
 		anima = GetComponent<Animator> ();
+		source = GetComponent<AudioSource> ();
     }
 	
 	// Update is called once per frame
@@ -21,6 +23,7 @@ public class AnimatorControl : MonoBehaviour, IPointerClickHandler {
 		Debug.Log ("squiz trigger");
 		#endif
 		anima.SetTrigger ("squizTrigger");
+		source.Play ();
 	}
 		
 }
