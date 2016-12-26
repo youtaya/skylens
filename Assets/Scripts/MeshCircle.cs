@@ -26,7 +26,7 @@ public class MeshCircle : MonoBehaviour {
 
 	void OnDrawGizmos()
 	{
-		Gizmos.color = Color.red;
+		Gizmos.color = Color.white	;
 		DrawMesh();
 	}
 
